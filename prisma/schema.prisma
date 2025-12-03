@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model subtasks {
+  id         Int       @id @default(autoincrement())
+  todo_id    Int
+  title      String    @db.VarChar(255)
+  completed  Boolean?  @default(false)
+  position   Int?      @default(0)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  todos      todos     @relation(fields: [todo_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_todo")
+
+  @@index([position], map: "idx_subtasks_position")
+}
+
+model todos {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(255)
+  date       DateTime   @db.Date
+  completed  Boolean?   @default(false)
+  position   Int?       @default(0)
+  created_at DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at DateTime?  @default(now()) @db.Timestamp(6)
+  subtasks   subtasks[]
+
+  @@index([position], map: "idx_todos_position")
+}
