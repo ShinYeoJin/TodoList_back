@@ -250,6 +250,8 @@ class TodoController {
         )
       );
 
+      console.log(prisma);
+
       res.json({
         success: true,
         message: "Positions updated successfully",
