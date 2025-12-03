@@ -14,9 +14,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// CORS: 기본적으로는 모든 origin 허용, 필요하면 CORS_ORIGIN 에 콤마(,)로 구분해 도메인 목록을 넣어 제한 가능
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN
+      ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim())
+      : true,
     credentials: true,
   })
 );
