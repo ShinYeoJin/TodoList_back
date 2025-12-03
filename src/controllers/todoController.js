@@ -128,6 +128,7 @@ class TodoController {
     } catch (error) {
       next(error);
     }
+    console.log("Prisma Client:", prisma);
   }
 
   // Update todo
